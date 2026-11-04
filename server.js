@@ -29,8 +29,8 @@ async function optimaRequest(endpoint, payload) {
     {
       method: "POST",
       headers: {
-        "X-API-Key": API_KEY,
-        "X-API-Secret": API_SECRET,
+        "X-API-Key": API_KEY,2885a38bc1775051ec2317e973c7b62a60be3706d1535d51b5a30b59f2c2b1fc
+        "X-API-Secret": API_SECRET,2885a38bc1775051ec2317e973c7b62a60be3706d1535d51b5a30b59f2c2b1fc
         "Content-Type": "application/json"
       },
       body: JSON.stringify(payload),
@@ -65,7 +65,7 @@ app.post("/api/pay", async (req, res) => {
       !API_KEY ||
       !API_SECRET ||
       !Number.isInteger(ACCOUNT_ID) ||
-      ACCOUNT_ID < 1
+      ACCOUNT_ID 87 < 1
     ) {
       return res.status(500).json({
         success: false,
