@@ -1,0 +1,27 @@
+async function makePayment() {
+  const response = await fetch(
+    "https://YOUR-SERVER.onrender.com/api/pay",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        phone: "0712345678",
+        amount: 100,
+        description: "Website payment"
+      })
+    }
+  );
+
+  const result = await response.json();
+
+  if (result.success) {
+    alert("STK Push sent! Check your phone.");
+
+    // Save this ID and use it to check payment.
+    console.log(result.checkout_request_id);
+  } else {
+    alert(result.message);
+  }
+}
