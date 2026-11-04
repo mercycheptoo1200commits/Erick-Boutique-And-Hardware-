@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erick Litein Shop | Fashion Boutique</title>
+<style>
+:root {
+  --gold:#d6ad60;
+  --dark:#151515;
+  --cream:#f7f2e9;
+  --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--cream);color:#222}
+header{
+  background:var(--dark);color:white;padding:18px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:10
+}
+.logo{font-size:21px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--gold)}
+header a{color:white;text-decoration:none;font-size:13px}
+.hero{
+  min-height:390px;padding:65px 7%;display:flex;align-items:center;
+  background:linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.25)),
+  url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=85') center/cover;
+  color:white
+}
+.hero h1{font-size:clamp(35px,6vw,65px);max-width:650px}
+.hero p{margin:17px 0;color:#eee;line-height:1.7}
+.gold{color:var(--gold)}
+.btn{
+  display:inline-block;background:var(--gold);color:#171717;
+  padding:13px 22px;border:0;border-radius:4px;font-weight:bold;
+  cursor:pointer;text-decoration:none
+}
+section{padding:45px 5%}
+.section-title{text-align:center;margin-bottom:25px}
+.section-title h2{font-size:29px}
+.section-title p{color:#777;margin-top:8px}
+.filters{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-bottom:25px}
+.filters button{
+  border:1px solid #c8b58f;background:white;padding:10px 16px;
+  border-radius:30px;cursor:pointer
+}
+.filters button.active{background:var(--dark);color:white}
+.products{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));
+  gap:18px
+}
+.product{
+  background:white;border-radius:8px;overflow:hidden;
+  box-shadow:0 4px 18px #0000000c
+}
+.product img{width:100%;height:220px;object-fit:cover;background:#eee}
+.product-info{padding:14px}
+.product h3{font-size:15px;margin-bottom:7px}
+.price{font-weight:bold;color:#9b722e;margin:9px 0}
+.product button{width:100%;margin-top:5px}
+.payment-section{background:#171717;color:white}
+.payment-wrap{
+  max-width:600px;margin:auto;background:#242424;padding:25px;
+  border:1px solid #57472c;border-radius:10px
+}
+.payment-wrap h2{text-align:center;color:var(--gold);margin-bottom:10px}
+.payment-wrap p{text-align:center;color:#ccc;font-size:14px;line-height:1.6}
+label{display:block;margin:15px 0 7px;font-size:13px;color:#eee}
+input,select{
+  width:100%;padding:13px;border:1px solid #555;border-radius:5px;
+  background:#fff;color:#222;font-size:15px
+}
+.payment-wrap .btn{width:100%;margin-top:20px}
+#status{
+  margin-top:17px;padding:13px;border-radius:5px;
+  background:#333;line-height:1.6;font-size:14px;display:none
+}
+.note{font-size:12px!important;color:#bbb!important;margin-top:12px}
+footer{background:#101010;color:#ccc;text-align:center;padding:28px 15px;font-size:13px}
+footer strong{color:var(--gold)}
+@media(max-width:600px){
+ header{padding:15px 4%}
+ .hero{min-height:340px;padding:45px 6%}
+ section{padding:35px 4%}
+ .product img{height:190px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ERICK <span>LITEIN SHOP</span></div>
+  <a href="#products">SHOP NOW ↓</a>
+</header>
+
+<div class="hero">
+  <div>
+    <h1>STYLE THAT <span class="gold">SPEAKS.</span></h1>
+    <p>Discover your next favourite outfit. Quality fashion, elegant looks
+    and everyday styles — all in one boutique.</p>
+    <a href="#products" class="btn">EXPLORE COLLECTION</a>
+  </div>
+</div>
+
+<section id="products">
+  <div class="section-title">
+    <h2>Our Fashion Collection</h2>
+    <p>Choose your favourite item and make a deposit to reserve it.</p>
+  </div>
+
+  <div class="filters">
+    <button class="active" onclick="filterProducts('All',this)">All</button>
+    <button onclick="filterProducts('Women',this)">Women</button>
+    <button onclick="filterProducts('Men',this)">Men</button>
+    <button onclick="filterProducts('Shoes',this)">Shoes</button>
+    <button onclick="filterProducts('Accessories',this)">Accessories</button>
+  </div>
+
+  <div class="products" id="productGrid"></div>
+</section>
+
+<section class="payment-section" id="deposit">
+  <div class="payment-wrap">
+    <h2>Reserve Your Order</h2>
+    <p>Pay a deposit using M-Pesa STK Push.
+    Deposits accepted from KSh 50 to KSh 50,000.</p>
+
+    <form id="paymentForm">
+      <label>Your full name</label>
+      <input id="customerName" type="text" placeholder="Enter your name" required>
+
+      <label>M-Pesa phone number</label>
+      <input id="phone" type="tel" placeholder="07XXXXXXXX or 2547XXXXXXXX" required>
+
+      <label>Selected product</label>
+      <input id="selectedProduct" type="text" placeholder="Choose a product above" required>
+
+      <label>Deposit amount (KSh)</label>
+      <input id="amount" type="number" min="50" max="50000"
+        step="1" placeholder="e.g. 500" required>
+
+      <button class="btn" id="payButton" type="submit">
+        PAY DEPOSIT WITH M-PESA
+      </button>
+    </form>
+
+    <div id="status" role="status"></div>
+    <p class="note">Your M-Pesa PIN should only be entered on the official
+    Safaricom prompt on your phone. Never share your PIN with anyone.</p>
+  </div>
+</section>
+
+<footer>
+  <strong>ERICK LITEIN SHOP</strong>
+  <p style="margin-top:9px">Your style. Your confidence. Your boutique.</p>
+  <p style="margin-top:9px">© 2026 Erick Litein Shop. All rights reserved.</p>
+</footer>
+
+<script>
+// CHANGE THIS to your actual Render backend URL.
+// Example: https://erick-shop-server.onrender.com
+const BACKEND_URL = "https://YOUR-SERVER.onrender.com";
+
+const products = [
+ {name:"Elegant Ladies Dress",category:"Women",price:2500,image:"https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600"},
+ {name:"Ladies Two-Piece Set",category:"Women",price:3200,image:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600"},
+ {name:"Classic Ladies Top",category:"Women",price:1200,image:"https://images.unsplash.com/photo-1551163943-3f6a855d1153?w=600"},
+ {name:"Stylish Ladies Skirt",category:"Women",price:1800,image:"https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=600"},
+ {name:"Men's Smart Shirt",category:"Men",price:2200,image:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600"},
+ {name:"Casual Men's T-Shirt",category:"Men",price:1000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600"},
+ {name:"Men's Denim Jeans",category:"Men",price:2800,image:"https://images.unsplash.com/photo-1542272604-787c3835535d?w=600"},
+ {name:"Fashion Hoodie",category:"Men",price:2500,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600"},
+ {name:"Classic Sneakers",category:"Shoes",price:3500,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"},
+ {name:"Ladies Heels",category:"Shoes",price:2900,image:"https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600"},
+ {name:"Casual Sandals",category:"Shoes",price:1500,image:"https://images.unsplash.com/photo-1603487742131-4160ec999306?w=600"},
+ {name:"Official Men's Shoes",category:"Shoes",price:4000,image:"https://images.unsplash.com/photo-1614252369475-531exa?auto=format&fit=crop&w=600"},
+ {name:"Elegant Handbag",category:"Accessories",price:2600,image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600"},
+ {name:"Fashion Sunglasses",category:"Accessories",price:900,image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600"},
+ {name:"Classic Wrist Watch",category:"Accessories",price:1800,image:"https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600"},
+ {name:"Fashion Jacket",category:"Men",price:4200,image:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600"}
+];
+
+const grid = document.getElementById("productGrid");
+
+function renderProducts(category="All"){
+  grid.innerHTML="";
+  products.filter(p=>category==="All"||p.category===category).forEach(p=>{
+    const card=document.createElement("div");
+    card.className="product";
+    const img=document.createElement("img");
+    img.src=p.image;
+    img.alt=p.name;
+    img.loading="lazy";
+    img.onerror=()=>{img.style.display="none"};
+    const info=document.createElement("div");
+    info.className="product-info";
+    const name=document.createElement("h3");
+    name.textContent=p.name;
+    const price=document.createElement("div");
+    price.className="price";
+    price.textContent="KSh "+p.price.toLocaleString();
+    const btn=document.createElement("button");
+    btn.className="btn";
+    btn.textContent="SELECT ITEM";
+    btn.onclick=()=>selectProduct(p.name);
+    info.append(name,price,btn);
+    card.append(img,info);
+    grid.append(card);
+  });
+}
+
+function filterProducts(category,button){
+  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  renderProducts(category);
+}
+
+function selectProduct(name){
+  document.getElementById("selectedProduct").value=name;
+  document.getElementById("deposit").scrollIntoView({behavior:"smooth"});
+}
+
+renderProducts();
+
+const form=document.getElementById("paymentForm");
+const statusBox=document.getElementById("status");
+const payButton=document.getElementById("payButton");
+
+function showStatus(message){
+  statusBox.style.display="block";
+  statusBox.textContent=message;
+}
+
+function normalizePhone(phone){
+  let p=phone.replace(/\s+/g,"");
+  if(p.startsWith("+")) p=p.substring(1);
+  if(p.startsWith("0")) p="254"+p.substring(1);
+  if(p.startsWith("7")||p.startsWith("1")) p="254"+p;
+  if(!/^254[17]\d{8}$/.test(p)) throw new Error("Enter a valid Kenyan M-Pesa number.");
+  return p;
+}
+
+form.addEventListener("submit",async function(e){
+  e.preventDefault();
+
+  const name=document.getElementById("customerName").value.trim();
+  const product=document.getElementById("selectedProduct").value.trim();
+  const rawPhone=document.getElementById("phone").value;
+  const amount=Number(document.getElementById("amount").value);
+
+  if(!name||!product) return showStatus("Please enter your name and select a product.");
+  if(!Number.isFinite(amount)||amount<50||amount>50000)
+    return showStatus("Deposit must be between KSh 50 and KSh 50,000.");
+
+  let phone;
+  try{phone=normalizePhone(rawPhone)}
+  catch(err){return showStatus(err.message)}
+
+  if(BACKEND_URL.includes("YOUR-SERVER"))
+    return showStatus("Website setup incomplete: add your Render backend URL in the code.");
+
+  payButton.disabled=true;
+  payButton.textContent="SENDING STK PUSH...";
+  showStatus("Connecting to payment service. Please wait...");
+
+  try{
+    const response=await fetch(BACKEND_URL.replace(/\/$/,"")+"/api/pay",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        phone:phone,
+        amount:amount,
+        description:"Deposit for "+product+" - "+name
+      })
+    });
+
+    const result=await response.json();
+    if(!response.ok||!result.success||!result.checkout_request_id){
+      throw new Error(result.message||"Could not initiate payment. Please try again.");
+    }
+
+    const checkoutId=result.checkout_request_id;
+    showStatus("STK Push sent to "+phone+". Enter your M-Pesa PIN on your phone. Waiting for confirmation...");
+
+    let attempts=0;
+    const maxAttempts=36;
+
+    const poll=async()=>{
+      try{
+        const check=await fetch(BACKEND_URL.replace(/\/$/,"")+"/api/status",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({checkout_request_id:checkoutId})
+        });
+        const data=await check.json();
+
+        if(data.status==="completed"){
+          showStatus("PAYMENT CONFIRMED! Your deposit of KSh "+
+            amount.toLocaleString()+" has been received. Transaction: "+
+            (data.transaction_code||"Confirmed")+". Thank you, "+name+"!");
+          payButton.textContent="PAYMENT CONFIRMED";
+          return;
+        }
+
+        if(data.status==="failed"){
+          showStatus("Payment failed or was cancelled. You can try again.");
+          payButton.disabled=false;
+          payButton.textContent="TRY PAYMENT AGAIN";
+          return;
+        }
+
+        attempts++;
+        if(attempts<maxAttempts){
+          showStatus("Payment is still pending. Please complete the M-Pesa prompt. Checking again...");
+          setTimeout(poll,5000);
+        }else{
+          showStatus("We have not received final confirmation yet. Please contact the shop before making another payment.");
+          payButton.disabled=false;
+          payButton.textContent="CHECK / TRY AGAIN";
+        }
+      }catch(err){
+        showStatus("Unable to check payment status right now. Please contact the shop and do not pay again until the status is checked.");
+        payButton.disabled=false;
+        payButton.textContent="CHECK / TRY AGAIN";
+      }
+    };
+    setTimeout(poll,4000);
+
+  }catch(err){
+    showStatus(err.message||"Payment request failed. Please try again.");
+    payButton.disabled=false;
+    payButton.textContent="TRY AGAIN";
+  }
+});
+</script>
+</body>
+</html>
